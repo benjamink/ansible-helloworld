@@ -1,0 +1,21 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: ansible
+  hosts: localhost
+  #require_chef_for_busser: false
+  require_ruby_for_busser: false
+
+platforms:
+  - name: centos-6.7
+  - name: centos-7.1
+
+suites:
+  - name: default
+    provisioner:
+      name: ansible_playbook
+      playbook: test/integration/default/test.yml
+      additional_copy_path:
+        - "."

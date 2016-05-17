@@ -1,0 +1,3 @@
+---
+- name: Create hello.txt file
+  copy: dest=/tmp/hello.txt content="Hello world!"
