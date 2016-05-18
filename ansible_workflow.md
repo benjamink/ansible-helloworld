@@ -1,8 +1,6 @@
 
 # Ansible Workflow
 
-[TOC]
-
 Ansible should be developed in a tested & modular process such that infrastructure is build by composing a number of independent modules (roles in Ansible).  This allows for flexibility of developing each component module independently from the rest.  This workflow aims to facilitate this development process.
 
 Ideally Ansible roles should follow the standards set by the Ansible community for publishing roles in the [Ansible Galaxy](https://galaxy.ansible.com/).  This forces roles to follow consistent patterns that are easy for other developers to follow.
