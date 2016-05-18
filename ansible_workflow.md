@@ -1,6 +1,8 @@
 
 # Ansible Workflow
 
+[TOC]
+
 Ansible should be developed in a tested & modular process such that infrastructure is build by composing a number of independent modules (roles in Ansible).  This allows for flexibility of developing each component module independently from the rest.  This workflow aims to facilitate this development process.
 
 Ideally Ansible roles should follow the standards set by the Ansible community for publishing roles in the [Ansible Galaxy](https://galaxy.ansible.com/).  This forces roles to follow consistent patterns that are easy for other developers to follow.
@@ -217,4 +219,4 @@ After the task is complete it can be applied & tested with kitchen as follows:
 
     $ kitchen converge && kitchen verify
 
-The above two commands will re-provision the instance(s) with the newly changed Ansible code followed by uploading & running all the ServerSpec tests again.  
+The above two commands will re-provision the instance(s) with the newly changed Ansible code followed by uploading & running all the ServerSpec tests again.  This process is repeated while various aspects of the role are developed.  The best practice is to work on tiny chunks of functionality at a time.  Each chunk starts with a test followed by the logic to satisfy the test followed by a commit.
