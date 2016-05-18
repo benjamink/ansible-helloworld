@@ -21,9 +21,17 @@ This role does not depend on any other Ansible roles.
 Example Playbook
 ----------------
 
+This role can be used directly just by including it in a playbook as follows:
+
     - hosts: localhost
       roles:
          - helloworld
+
+Alternatively, the role can be included with the `helloworld_text` variable overridden which would populate `/tmp/hello.txt` with the custom-supplied string:
+
+    - hosts: localhost
+      roles:
+        - { role: helloworld, helloworld_text: "Hey, folks!" }
 
 License
 -------

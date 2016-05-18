@@ -1,3 +1,3 @@
 ---
 - name: Create hello.txt file
-  copy: dest=/tmp/hello.txt content="Hello world!"
+  template: src=hello.txt.j2 dest=/tmp/hello.txt 
