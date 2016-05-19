@@ -211,6 +211,14 @@ If it's desired to just develop against a single instance, then the instance nam
 
     $ kitchen test default-centos-71 --destroy=never
 
+### Create a Branch
+
+Before starting work on a new feature it is necessary to create a Git branch so that the new work can be developed without modifying the production code.  Once development within the branch is completed a review will be requested from peers before it is finally merged back into the `master` branch & ultimately deployed to production.  
+
+After cloning the `master` branch of the role to be worked on create & change into a development branch named to identify the feature being worked on as follows:
+
+    $ git checkout -b new_feature
+
 ### Development Cycle
 
 Once the instance(s) are initially brought up work can be done to develop the logic to satisfy the tests that have been written.  For this example the `/tmp/hello.txt` file should be populated so a task will be added to `tasks/main.yml` as follows:
@@ -224,6 +232,28 @@ After the task is complete it can be applied & tested with kitchen as follows:
     $ kitchen converge && kitchen verify
 
 The above two commands will re-provision the instance(s) with the newly changed Ansible code followed by uploading & running all the ServerSpec tests again.  This process is repeated while various aspects of the role are developed.  The best practice is to work on tiny chunks of functionality at a time.  Each chunk starts with a test followed by the logic to satisfy the test followed by a commit.
+
+Be sure to commit new changes often with meaningful commit messages.  Also be sure to merge in the upstream `master` branch often to ensure that conflicts are being caught & fixed early (it is recommended that `master` be merged into the development branch daily at a minimum):
+
+    $ git merge master
+
+### Completing development
+
+When development is complete & all tests are passing as expected, all of the kitchen VMs or containers should be destroyed (stopped).  This is done with the following command:
+
+    $ kitchen destroy
+
+It is also possible to destroy/stop just the specific instance desired by providing the instance name to kitchen:
+
+    $ kitchen destroy default-centos-71
+
+Since changes may have been merged into the `master` branch that this feature branch was created from it is important to merge in any upstream changes before requesting that the new development branch be merged into `master`:
+
+    $ git merge master new_feature
+
+Finally push all commits to `new_feature` back to version control before requesting a review & to be merged back into `master`:
+
+    $ git push origin new_feature
 
 # Troubleshooting
 
