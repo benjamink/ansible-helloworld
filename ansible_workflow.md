@@ -1,4 +1,4 @@
-it j
+
 # Ansible Workflow
 
 ## Overview
@@ -26,7 +26,7 @@ When finished the following command should work as follows (version number may d
 
 ### Install Vagrant
 
-Vagrant is an integral part of the test-driven development workflow as it provides a tool for starting, managing & controlling virtual machines.  `test-kitchen` (described below) wraps Vagrant under the covers.  Vagrant can be downloaded from the [Vagrant download page](https://www.vagrantup.com/).
+Vagrant is an integral part of the test-driven development workflow as it provides a tool for starting, managing & controlling virtual machines.  test-kitchen (described below) wraps Vagrant under the covers.  Vagrant can be downloaded from the [Vagrant download page](https://www.vagrantup.com/).
 
 In addition to Vagrant, VirtualBox will also be necessary (unless using a different virtualization platform - see the Vagrant docs for information on running with something other than VirtualBox) which can be downloaded from [VirtualBox's download page](https://www.virtualbox.org/wiki/Downloads).
 
@@ -40,7 +40,11 @@ To create a new Ansible role use the `ansible-galaxy` command to generate the sc
 
     $ ansible-galaxy init <role_name>
 
-The above command will generate a new sub-directory in the directory you're currently in with the name of the role you passed.  Within this directory will be a number of directories & files that compose a standard Ansible role:
+e.g.
+
+    $ ansible-galaxy init helloworld
+
+The above command will generate a new sub-directory in the directory you're currently in with the name of the role you passed.  Within this directory will be a number of directories & files that compose a standard Ansible role. Continuing our example:
 
     helloworld
     ├── README.md
@@ -62,9 +66,9 @@ The above command will generate a new sub-directory in the directory you're curr
 
 ## Initializing kitchen-ansible
 
-In order to do test-driven-development it's good to have a proper frame-work to run the Ansible code in virtual development machines before deploying to production.  A great tool for this is [kitchen-ansible](https://github.com/neillturner/kitchen-ansible) which is a derivative of [test-kitchen](https://github.com/test-kitchen/test-kitchen) designed specifically for Ansible.  
+In order to do test-driven development it's good to have a proper framework to run the Ansible code in virtual development machines before deploying to production.  A great tool for this is [kitchen-ansible](https://github.com/neillturner/kitchen-ansible) which is a derivative of [test-kitchen](https://github.com/test-kitchen/test-kitchen) designed specifically for Ansible.  
 
-Once the role scaffolding is generated as above it is necessary to initialize the role for test-kitchen.  This can be done in one of two ways depending on which virtualization system you chose to work with.  
+Once the role scaffolding is generated as shown above it is necessary to initialize the role for use with test-kitchen.  This can be done in one of two ways depending on which virtualization system you chose to work with.  
 
 ### Using Vagrant
 
@@ -76,7 +80,7 @@ Initialize a Vagrant-based test-kitchen project with the following command:
 
 ### Using Docker
 
-Docker has the benefit of being far lighter-weight than using Vagrant.  Docker doesn't build an entire virtual machine but instead creates a container with just the parts of the system that are different from the host operating system needed to run the code within the container.  While this is a huge improvement on development velocity it does have some draw-backs.  Docker is based on features in the Linux kernel & thus isn't natively available in OS X.  In order to use Docker a special virtual machine is started running Linux & Docker functions are run within that virtual machine.  Once the Docker VM is running the speed advantages of Docker are still available, but there is an extra layer to deal with.  There are tools from Docker that make running Docker on OS X much easier, hoewever.  Follow the instructions on [Docker's OS X setup page](https://docs.docker.com/mac/) to get your workstation setup properly.
+Docker has the benefit of being significantly more lightweight than Vagrant.  Docker doesn't build an entire virtual machine but instead creates a container with just the parts of the system that are different from the host operating system needed to run the code within the container.  While this is a huge improvement on development velocity it does have some drawbacks.  Docker is based on features in the Linux kernel & thus isn't natively available in OS X.  In order to use Docker a special virtual machine is started running Linux & Docker functions are run within that virtual machine.  Once the Docker VM is running the speed advantages of Docker are still available, but there is an extra layer to deal with.  However, there are tools from Docker that make running Docker on OS X much easier.  Follow the instructions on [Docker's OS X setup page](https://docs.docker.com/mac/) to get your workstation set up properly.
 
 Another draw-back with Docker development is that some functionality is restricted in containers at very low levels.  For example, `systemd` is becoming more and more popular in modern Linux distributions but it requires certain low-level privileges in the kernel that are normally restricted within Docker as they pose a security risk with other containers running on the same host.  While there are ways of getting around this particular issue, it requires forcing unsafe Docker usage and isn't entirely reliable.  
 
@@ -88,7 +92,7 @@ Note that when using Docker it is very important to have a recent version of Rub
 
 ### Setup the Gemfile
 
-kitchen-ansible requires a few additional tools to be installed in order to work properly.  The best way to handle this is via an included `Gemfile` in the role project.  This makes it possible to bundle the requirements with the role itself.  The `kitchen init` command mentioned above actually creates a sparsely populated `Gemfile` that is a good foundation to start from.  Simply edit this file and add a couple additional lines so it looks like the following:
+`kitchen-ansible` requires a few additional tools to be installed in order to work properly.  The best way to handle this is via an included `Gemfile` in the role project.  This makes it possible to bundle the requirements of the role with the role itself.  The `kitchen init` command mentioned above actually creates a sparsely populated `Gemfile` that is a good foundation to start from.  Simply edit this file and add a couple additional lines so it looks like the following:
 
     source "https://rubygems.org"
 
@@ -102,9 +106,9 @@ If the role is using Docker, the above `Gemfile` should include `kitchen-docker`
 
 ## Configuring kitchen-ansible
 
-Once the Ansible role has been initialized with kitchen-ansible a new file called `.kitchen.yml` will have been created in the project directory.  This file configures how kitchen-ansible will manage the underlying virtualization platform (driver) and run the provisioner.  One of the powerful features of test-kitchen is that it can be configured to automatically manage multiple instances & multiple operating system platforms in a single configuration file.  This means it's possible to test an Ansible role on CentOS 6, CentOS 7 & Ubuntu 14.04 all with one command.  
+Once the Ansible role has been initialized with kitchen-ansible a new file called `.kitchen.yml` will have been created in the project directory.  This file configures how kitchen-ansible will manage the underlying virtualization platform (driver) and run the provisioner.  One of the powerful features of test-kitchen is that it can be configured to automatically manage multiple instances & multiple operating system platforms in a single configuration file.  This means, for example, it's possible to test an Ansible role on CentOS 6, CentOS 7 & Ubuntu 14.04 all with one command.  
 
-The following is an example of a simple kitchen-ansible configuration that will provision the current role on both CentOS 6 & CentOS 7.  Then kitchen-ansible will run through whatever tests are defined on both instances:
+The following is an example of a simple kitchen-ansible configuration that will provision the current role on both CentOS 6 & CentOS 7.  kitchen-ansible will then run through whatever tests are defined on both instances:
 
 ### Using Vagrant
 
@@ -192,7 +196,7 @@ The idea behind test-driven-development is that tests are written **before** the
 
 ### Initial Start
 
-To bring up the instance, provision & run tests initially run the following command paying close attention to include the `--destroy=never` at the end - this keeps kitchen-ansible from shutting down & destroying the instance at the end even if the tests all pass (by default the instance stays running if any tests fail so it can be entered for troubleshooting):
+To bring up the instance, provision it, and run tests initially, run the following command paying close attention to include the `--destroy=never` at the end - this keeps kitchen-ansible from shutting down & destroying the instance at the end even if the tests all pass (by default the instance stays running if any tests fail so it can be entered for troubleshooting):
 
     $ kitchen test --destroy=never
 
