@@ -1,7 +1,9 @@
-
+it j
 # Ansible Workflow
 
-Ansible should be developed in a tested & modular process such that infrastructure is build by composing a number of independent modules (roles in Ansible).  This allows for flexibility of developing each component module independently from the rest.  This workflow aims to facilitate this development process.
+## Overview
+
+Ansible should be developed in a tested & modular process such that infrastructure is built by composing a number of independent modules (called **roles** in Ansible).  This allows for flexibility of developing each component module independently from the rest.  This workflow aims to facilitate this development process.
 
 Ideally Ansible roles should follow the standards set by the Ansible community for publishing roles in the [Ansible Galaxy](https://galaxy.ansible.com/).  This forces roles to follow consistent patterns that are easy for other developers to follow.
 
@@ -11,15 +13,15 @@ This guide assumes the development workstation is an Apple OS X system.  If usin
 
 ### Install Ansible
 
-The easiest way to get stable Ansible is to use [Homebrew](http://brew.sh/).   Simply install Ansible with the following:
+The easiest way to get stable Ansible is to use [Homebrew](http://brew.sh/).   Install Homebrew, then simply install Ansible with the following:
 
     $ brew install ansible
 
-When finished the following command should work:
+When finished the following command should work as follows (version number may differ):
 
     $ ansible --version
-    ansible 2.0.1.0
-      config file = /Users/jdoe/.ansible.cfg
+    ansible 2.0.0.2
+      config file = /Users/$USER/.ansible.cfg
       configured module search path = Default w/o overrides
 
 ### Install Vagrant
@@ -218,3 +220,18 @@ After the task is complete it can be applied & tested with kitchen as follows:
     $ kitchen converge && kitchen verify
 
 The above two commands will re-provision the instance(s) with the newly changed Ansible code followed by uploading & running all the ServerSpec tests again.  This process is repeated while various aspects of the role are developed.  The best practice is to work on tiny chunks of functionality at a time.  Each chunk starts with a test followed by the logic to satisfy the test followed by a commit.
+
+# Troubleshooting
+
+When trying to run `brew cask install virtualbox vagrant` the following error appears:
+
+    Error: Permission denied - /Library/Ruby/Gems/2.0.0/specifications/addressable-2.3.8.gemspec
+
+
+This is due to a permissions error on the `/Library/Ruby/Gems/2.0.0` directory. Fortunately this can be rectified by removing and reinstalling this directory and the gems within:
+
+
+    sudo rm -rf /Library/Ruby/Gems/2.0.0
+    gem update --system
+
+---
