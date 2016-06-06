@@ -1,11 +1,15 @@
 ---
 driver:
-  name: vagrant
+  name: docker
+  provision_command:
+    - sed -i '/Defaults.*requiretty/d' /etc/sudoers
+    - sed -i '/tsflags=nodocks/d' /etc/yum.conf
+    - yum install -y curl
 
 provisioner:
   name: ansible
   hosts: localhost
-  #require_chef_for_busser: false
+  require_chef_for_busser: false
   require_ruby_for_busser: false
 
 platforms:
