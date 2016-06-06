@@ -1,6 +1,7 @@
 ---
 driver:
   name: docker
+  use_sudo: false
   provision_command:
     - sed -i '/Defaults.*requiretty/d' /etc/sudoers
     - sed -i '/tsflags=nodocks/d' /etc/yum.conf
@@ -9,12 +10,18 @@ driver:
 provisioner:
   name: ansible
   hosts: localhost
-  require_chef_for_busser: false
+  #require_chef_for_busser: false
   require_ruby_for_busser: false
 
 platforms:
   - name: centos-6.7
+    driver_config:
+      image: superbenk/centos6-ansible
+      platform: centos
   - name: centos-7.1
+    driver_config:
+      image: superbenk/centos7-ansible
+      platform: centos
 
 suites:
   - name: default
