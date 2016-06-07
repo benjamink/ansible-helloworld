@@ -41,4 +41,4 @@ BSD
 Author Information
 ------------------
 
-Wildbit, LLC <sys-team@wildbit.com>
+John Doe <jdoe@example.com>
