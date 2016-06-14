@@ -1,7 +1,6 @@
 helloworld
 ==========
 
-TESTING
 Demonstration Ansible role to be used as an educational template when learning how to develop in Ansible.
 
 Requirements
