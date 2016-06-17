@@ -5,23 +5,24 @@ driver:
   provision_command:
     - sed -i '/Defaults.*requiretty/d' /etc/sudoers
     - sed -i '/tsflags=nodocks/d' /etc/yum.conf
-    - yum install -y curl
 
 provisioner:
   name: ansible
   hosts: localhost
   #require_chef_for_busser: false
   require_ruby_for_busser: false
+  ignore_paths_from_root:
+    - .git
 
 platforms:
   - name: centos-6.7
     driver_config:
       image: superbenk/centos6-ansible
-      platform: centos
   - name: centos-7.1
     driver_config:
-      image: superbenk/centos7-ansible
-      platform: centos
+      image: superbenk/centos7-systemd-ansible
+      run_command: /usr/sbin/init
+      privileged: true
 
 suites:
   - name: default
